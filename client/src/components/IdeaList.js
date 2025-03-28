@@ -35,16 +35,18 @@ class IdeaList {
         }
     }
 
-    // async deleteIdea(ideaId) {
-    //     try {
-    //         const res = await IdeasApi.deleteIdea(ideaId);
-    //         this._ideas.filter((idea) => idea.id !== ideaId);
-    //         this.getIdeas();
-    //     }
-    //     catch(error) {
-    //         console.log(error);
-    //     }
-    // }
+    async deleteIdea(ideaId) {
+        try {
+            // Delete from server-
+            const res = await IdeasApi.deleteIdeas(ideaId);
+            // Delete from DOM-
+            this._ideas.filter((idea) => idea.id !== ideaId);
+            this.getIdeas();
+        }
+        catch(error) {
+            alert("You can't delete this resource.");
+        }
+    }
 
     addIdeaToList(idea) {
         try {
@@ -85,7 +87,7 @@ class IdeaList {
             const userP = document.createElement('p');
             userP.innerHTML = `Posted on <span class="date">${idea.date}</span> by <span class="author">${idea.username}</span>`;
 
-            div.appendChild(button);
+            idea.username === localStorage.getItem('username') ? div.appendChild(button) : null;
             div.appendChild(h3);
             div.appendChild(tagP);
             div.appendChild(userP);
@@ -93,7 +95,7 @@ class IdeaList {
             this._ideaListEl.appendChild(div);
 
         });
-        // this.addEventListeners();
+        this.addEventListeners();
     }
 }
 
